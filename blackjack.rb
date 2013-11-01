@@ -1,28 +1,36 @@
+
+
+
 def calculate_total(cards)
   arr = cards.map{|e| e[1]}
 
   total = 0
   arr.each do |value|
-  	if value =="A"
-  		total += 11
+    if value =="A"
+      total += 11
     elsif value.to_i == 0
-    	total += 10
+      total += 10
     else
-    	total += value.to_i
-    end	
+      total += value.to_i
+    end 
   end
 
   arr.select{|e| e == "A"}.count.times do
     total -= 10 if total > 21 
-  end	
+  end 
   
 
   total
-end	
+end 
+
+def playagain
+  puts "Would you like to play again? 1)No 2)Yes"
+  $ans = gets.chomp
+end
 
 
 # start and deck construct
-
+begin
 puts "Welcome to BlackJack"
 puts ""
 puts "What is your name?"
@@ -56,8 +64,8 @@ puts ""
 
 #players turn
 if mytotal == 21
-	puts "Congrats, #{playername} you hit BlackJack! You Win!"
-	exit
+  puts "Congrats, #{playername} you hit BlackJack! You Win!"
+  exit
 end
 
 while mytotal < 21
@@ -70,72 +78,84 @@ while mytotal < 21
   end
 
   if hit_or_stay == "2"
-  	puts "You chose to stay."	
-  	break;
-  end	
+    puts "You chose to stay." 
+    break;
+  end 
 
 #hit
   new_card = deck.pop
   puts "Dealing card to #{playername}: #{new_card}"
   mycards << new_card
   mytotal = calculate_total(mycards)
-  puts "your total us now: #{mytotal}"
+  puts "your total is now: #{mytotal}"
 
  if mytotal == 21
-  	puts "Congratulations #{playername}, you hit Blackjack! You win!"
-  	exit
+    puts "Congratulations #{playername}, you hit Blackjack! You win!"
+    puts ""
+    puts playagain
+    next
   elsif mytotal > 21
-    puts "Sorry, You Busted #{playername}1!! HA HA!"
-    exit
+    puts "Sorry, You Busted #{playername}!! HA HA!"
+    puts ""
+    puts playagain
+    next
  end
+ 
 end
  
- #dealer's turn
+
+#dealer's turn
 if dealertotal == 21
- 	puts "Sorry Dealer hit BlackJack"
- 	exit
+  puts "Sorry Dealer hit BlackJack"
+  exit
 end
 
 while dealertotal < 17
- 	new_card = deck.pop
- 	puts "the Dealer pulled: #{new_card}"
- 	dealercards << new_card
- 	dealertotal = calculate_total(dealercards)
- 	puts "the Dealer has: #{dealertotal}"
- 	if dealertotal == 21
- 		puts "Sorry Dealer hit 21. You Lose"
- 		exit
- 	elsif dealertotal > 21
- 		puts "congratulations, dealer busted! You Win!"
- 		exit
- 	end
- end
+  new_card = deck.pop
+  puts "the Dealer pulled: #{new_card}"
+  dealercards << new_card
+  dealertotal = calculate_total(dealercards)
+  puts "the Dealer has: #{dealertotal}"
+  if dealertotal == 21
+    puts "Sorry Dealer hit 21. You Lose"
+    next
+  elsif dealertotal > 21
+    puts "congratulations, dealer busted! You Win!"
+    next
+  end
+end
 
 #compare
 puts "dealer's cards: "
 dealercards.each do |cards|
-	puts "=> #{cards}"
+  puts "=> #{cards}"
 end
 
 puts "your cards"
 mycards.each do |cards|
-	puts "=> #{cards}"
+  puts "=> #{cards}"
  end
 
- if dealertotal > mytotal
- 	puts "sorry dealer won"
- elsif dealertotal < mytotal
- 	puts "You win"
- else 
- 	puts "Its a Tie!"
- end
+if dealertotal > mytotal
+  puts "sorry dealer won"
+  elsif dealertotal < mytotal
+  puts "You win"
+  else 
+  puts "Its a Tie!"
+end
 
-exit
+puts playagain
+
+end while $ans == "2"
 
 
 
 
 
- 		
+
+
+
+
+    
 
 
